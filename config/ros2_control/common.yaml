@@ -1,0 +1,203 @@
+# Common controller defaults for FiveAges S2 stand humanoid.
+
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    ocs2_arm_controller:
+      type: ocs2_arm_controller/Ocs2ArmController
+
+    ocs2_wbc_controller:
+      type: ocs2_wbc_controller/Ocs2WbcController
+
+    head_joint_controller:
+      type: basic_joint_controller/BasicJointController
+
+    body_joint_controller:
+      type: basic_joint_controller/BasicJointController
+
+    left_gripper_controller:
+      type: adaptive_gripper_controller/AdaptiveGripperController
+
+    right_gripper_controller:
+      type: adaptive_gripper_controller/AdaptiveGripperController
+
+    left_hand_controller:
+      type: basic_joint_controller/BasicJointController
+
+    right_hand_controller:
+      type: basic_joint_controller/BasicJointController
+
+
+ocs2_arm_controller:
+  ros__parameters:
+    update_rate: 100
+    mpc_frequency: 50
+    joints:
+      - left_joint1
+      - left_joint2
+      - left_joint3
+      - left_joint4
+      - left_joint5
+      - left_joint6
+      - left_joint7
+      - right_joint1
+      - right_joint2
+      - right_joint3
+      - right_joint4
+      - right_joint5
+      - right_joint6
+      - right_joint7
+
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+
+    robot_name: m6_ccs
+    info_file_name: task
+    home_duration: 5.0
+    movel_trajectory_duration: 6.0
+    movej_interpolation_type: doubles
+    home_interpolation_type: doubles
+
+    cartesian_defaults:
+      frame_id: arm_base
+      ik_type: AUTO
+      max_linear_velocity: 0.3
+      max_linear_acceleration: 1.0
+      max_linear_jerk: 5.0
+      max_angular_velocity: 0.5
+      max_angular_acceleration: 1.0
+      max_angular_jerk: 5.0
+
+    home_1: [ 1.457133809892805, -1.0633699963902674, -1.1994065285584414, -0.8074199090303408, -0.6949558811978124, -0.6864381599253574, -0.1295225067208675,
+              -1.457133809892805, -1.0633699963902674, 1.1994065285584414, -0.8074199090303408, 0.6949558811978124, -0.6864381599253574, 0.1295225067208675]
+    home_2: [ 2.502, -1.528, -1.562, -1.680, 0.0, -0.787, 0.0,
+              -2.502, -1.528, 1.562, -1.680, 0.0, -0.787, 0.0 ]
+
+ocs2_wbc_controller:
+  ros__parameters:
+    use_tf_for_base: false
+    tf_topic: /tf
+    world_frame: world
+    base_frame: base_link
+    update_rate: 100
+    mpc_frequency: 50
+    info_file_name: fixed_base
+    # [body_joint1~3 | left x7 | right x7 | head x2]
+    joints:
+      - body_joint1
+      - body_joint2
+      - body_joint3
+      - left_joint1
+      - left_joint2
+      - left_joint3
+      - left_joint4
+      - left_joint5
+      - left_joint6
+      - left_joint7
+      - right_joint1
+      - right_joint2
+      - right_joint3
+      - right_joint4
+      - right_joint5
+      - right_joint6
+      - right_joint7
+      - head_joint1
+      - head_joint2
+
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+
+    robot_name: fiveages_s2
+    home_duration: 5.0
+
+    # Split/full body waist teleop: lift=body_joint1 [m], turn=body_joint2 [rad]
+    waist_lifting_enabled: true
+    waist_lifting_duration: 3.0
+    waist_lifting_type: single_joint
+    # body_joint1: joint value increase = physical down; negate max speed so +command = up
+    waist_lifting_default_parameter: [-0.02, 0.5, 1.0]
+    waist_turning_default_parameter: [0.2, 0.5, 1.0]
+
+    cartesian_defaults:
+      frame_id: arm_base
+      ik_type: AUTO
+      max_linear_velocity: 0.3
+      max_linear_acceleration: 1.0
+      max_linear_jerk: 5.0
+      max_angular_velocity: 0.5
+      max_angular_acceleration: 1.0
+      max_angular_jerk: 5.0
+
+    home_1: [ 0.0, 0.0, 0.0,
+              1.457133809892805, -1.0633699963902674, -1.1994065285584414, -0.8074199090303408, -0.6949558811978124, -0.6864381599253574, -0.1295225067208675,
+              -1.457133809892805, -1.0633699963902674, 1.1994065285584414, -0.8074199090303408, 0.6949558811978124, -0.6864381599253574, 0.1295225067208675,
+              0.0, 0.0]
+    home_2: [ 0.0, 0.0, 0.0,
+              2.502, -1.528, -1.562, -1.680, 0.0, -0.787, 0.0,
+              -2.502, -1.528, 1.562, -1.680, 0.0, -0.787, 0.0,
+              0.0, 0.0]
+
+head_joint_controller:
+  ros__parameters:
+    update_rate: 100
+    joints:
+      - head_joint1
+      - head_joint2
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    home_duration: 5.0
+    movej_duration: 5.0
+    hold_position_threshold: 0.1
+    home_1: [0.0, 0.0]
+    home_2: [0.0, 0.0]
+    home_3: [0.0, 0.0]
+    home_4: [0.0, 0.0]
+
+body_joint_controller:
+  ros__parameters:
+    update_rate: 100
+    # body_joint1: lift [m]; body_joint2: rotation [rad]; body_joint3: pitch [rad]
+    joints:
+      - body_joint1
+      - body_joint2
+      - body_joint3
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    home_duration: 5.0
+    movej_duration: 5.0
+    hold_position_threshold: 0.1
+    movej_interpolation_type: doubles
+    home_1: [0.0, 0.0, 0.0]
+    home_2: [0.045, 0.0, 0.0]
+
+    # Split-body waist teleop: single_joint lift on body_joint1, turn on body_joint2
+    waist_lifting_enabled: true
+    waist_lifting_duration: 3.0
+    waist_lifting_type: single_joint
+    # body_joint1: joint value increase = physical down; negate max speed so +command = up
+    waist_lifting_default_parameter: [-0.02, 0.5, 1.0]
+    waist_turning_default_parameter: [0.2, 0.5, 1.0]
+
+left_gripper_controller:
+  ros__parameters:
+    joint: left_gripper_joint
+    use_effort_interface: false
+
+right_gripper_controller:
+  ros__parameters:
+    joint: right_gripper_joint
+    use_effort_interface: false

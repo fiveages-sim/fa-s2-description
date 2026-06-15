@@ -1,0 +1,20 @@
+/**:
+  ros__parameters:
+    linear_scale: 0.01
+    angular_scale: 0.025
+    vr_update_rate: 500.0
+
+    marker_fixed_frame: base_link
+    enable_vr: true
+    enable_head_control: false
+
+    head_joint_to_rpy_mapping:
+      head_joint1: "head_yaw"
+      head_joint2: "head_pitch"
+
+    head_rpy_axis_direction:
+      head_yaw: 1.0
+      head_pitch: 1.0
+      head_roll: 1.0
+
+    head_link_name: "head_link2"

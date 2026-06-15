@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<robot name="FiveAges S2" xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<xacro:arg name="type" default="arms"/>
+	<xacro:arg name="variant" default=""/>
+	<xacro:arg name="collider" default="simple"/>
+
+	<xacro:if value="${'$(arg type)' == 'arms'}">
+		<xacro:include filename="$(find m6_ccs_description)/xacro/arm_mount.xacro"/>
+		<xacro:DualArmBase/>
+
+		<xacro:include filename="$(find m6_ccs_description)/xacro/arm.xacro"/>
+		<xacro:M6_CCS name="left" skin="fiveages_w2" variant="$(arg variant)"/>
+		<xacro:M6_CCS name="right" direction="-1" skin="fiveages_w2" variant="$(arg variant)"/>
+	</xacro:if>
+
+</robot>

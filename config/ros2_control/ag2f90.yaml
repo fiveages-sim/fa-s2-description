@@ -1,0 +1,19 @@
+# This config file is used by ros2_control
+ocs2_arm_controller:
+  ros__parameters:
+    robot_type: ag2f90
+
+    home_3: [ 2.502, -1.528, -1.562, -1.680, 0.0, -0.787, 0.0,
+              -2.502, -1.528, 1.562, -1.680, 0.0, -0.787, 0.0 ]
+    home_4: [ 2.502, -1.528, -1.562, -1.680, 0.0, -0.787, 0.0,
+              -2.502, -1.528, 1.562, -1.680, 0.0, -0.787, 0.0 ]
+
+ocs2_wbc_controller:
+  ros__parameters:
+    robot_type: ag2f90
+
+# 头部关节控制器配置
+body_joint_controller:
+  ros__parameters:
+    home_3: [0.045, 0.0, 0.0]
+    home_4: [0.045, 3.14159, 0.0]

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<robot name="FiveAges S2" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:arg name="collider" default="simple"/>
+    <xacro:arg name="eef_fixed_joints" default="false"/>
+    <xacro:arg name="variant" default=""/>
+
+    <xacro:arg name="type" default=""/>
+    <xacro:arg name="left_type" default=""/>
+    <xacro:arg name="right_type" default=""/>
+    <xacro:property name="type_arg" value="$(arg type)"/>
+    <xacro:property name="left_type_arg" value="$(arg left_type)"/>
+    <xacro:property name="right_type_arg" value="$(arg right_type)"/>
+    <xacro:property name="effective_left_type" value="${left_type_arg if left_type_arg != '' else type_arg}"/>
+    <xacro:property name="effective_right_type" value="${right_type_arg if right_type_arg != '' else type_arg}"/>
+
+    <xacro:include filename="$(find m6_ccs_description)/xacro/eef_type_resolver.xacro"/>
+    <xacro:set_side_eef_types side="left" type_key="${effective_left_type}"/>
+    <xacro:set_side_eef_types side="right" type_key="${effective_right_type}"/>
+
+    <xacro:property name="head_variant" value="stand"/>
+
+    <xacro:include filename="$(find fiveages_w2_common_description)/xacro/components/stand.xacro"/>
+    <xacro:stand collider="$(arg collider)"/>
+
+    <xacro:include filename="$(find fiveages_w2_common_description)/xacro/components/torso.xacro"/>
+    <xacro:torso
+            variant="$(arg variant)"
+            collider="$(arg collider)"
+            parent_link="stand_link3"
+            mount_joint_name="torso_mount_joint"
+            mount_joint_type="fixed"
+            mount_origin_xyz="-0.00076989 0 0.087931"/>
+
+    <xacro:include filename="$(find fiveages_w2_common_description)/xacro/components/head.xacro"/>
+    <xacro:head variant="${head_variant}" collider="$(arg collider)"/>
+
+    <xacro:include filename="$(find m6_ccs_description)/xacro/arm_mount.xacro"/>
+    <xacro:DualArmMount parent="arm_base"/>
+
+    <xacro:include filename="$(find m6_ccs_description)/xacro/arm.xacro"/>
+    <xacro:M6_CCS name="left" skin="fiveages_w2" variant="$(arg variant)"/>
+    <xacro:M6_CCS name="right" direction="-1" skin="fiveages_w2" variant="$(arg variant)"/>
+
+    <xacro:include filename="$(find m6_ccs_description)/xacro/eefs.xacro"/>
+    <xacro:EndEffectors
+        eef_fixed_joints="$(arg eef_fixed_joints)"
+        left_hand_type="${left_hand_type}"
+        left_gripper_type="${left_gripper_type}"
+        left_gripper_pad="${left_gripper_pad}"
+        right_hand_type="${right_hand_type}"
+        right_gripper_type="${right_gripper_type}"
+        right_gripper_pad="${right_gripper_pad}"/>
+</robot>
