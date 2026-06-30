@@ -88,11 +88,11 @@ ocs2_wbc_controller:
     update_rate: 100
     mpc_frequency: 50
     info_file_name: fixed_base
-    # [body_joint1~3 | left x7 | right x7 | head x2]
+    # [lift_joint | body_joint1~2 | left x7 | right x7 | head x2]
     joints:
+      - lift_joint
       - body_joint1
       - body_joint2
-      - body_joint3
       - left_joint1
       - left_joint2
       - left_joint3
@@ -118,11 +118,11 @@ ocs2_wbc_controller:
     robot_name: fiveages_s2
     home_duration: 5.0
 
-    # Split/full body waist teleop: lift=body_joint1 [m], turn=body_joint2 [rad]
+    # Split/full body waist teleop: lift=lift_joint [m], turn=body_joint1 [rad]
     waist_lifting_enabled: true
     waist_lifting_duration: 3.0
     waist_lifting_type: single_joint
-    # body_joint1: joint value increase = physical down; negate max speed so +command = up
+    # lift_joint: joint value increase = physical down; negate max speed so +command = up
     waist_lifting_default_parameter: [-0.02, 0.5, 1.0]
     waist_turning_default_parameter: [0.2, 0.5, 1.0]
 
@@ -167,11 +167,11 @@ head_joint_controller:
 body_joint_controller:
   ros__parameters:
     update_rate: 100
-    # body_joint1: lift [m]; body_joint2: rotation [rad]; body_joint3: pitch [rad]
+    # lift_joint: lift [m]; body_joint1: rotation [rad]; body_joint2: pitch [rad]
     joints:
+      - lift_joint
       - body_joint1
       - body_joint2
-      - body_joint3
     command_interfaces:
       - position
     state_interfaces:
@@ -184,11 +184,11 @@ body_joint_controller:
     home_1: [0.0, 0.0, 0.0]
     home_2: [0.045, 0.0, 0.0]
 
-    # Split-body waist teleop: single_joint lift on body_joint1, turn on body_joint2
+    # Split-body waist teleop: single_joint lift on lift_joint, turn on body_joint1
     waist_lifting_enabled: true
     waist_lifting_duration: 3.0
     waist_lifting_type: single_joint
-    # body_joint1: joint value increase = physical down; negate max speed so +command = up
+    # lift_joint: joint value increase = physical down; negate max speed so +command = up
     waist_lifting_default_parameter: [-0.02, 0.5, 1.0]
     waist_turning_default_parameter: [0.2, 0.5, 1.0]
 

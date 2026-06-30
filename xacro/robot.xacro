@@ -20,8 +20,10 @@
 
     <xacro:property name="head_variant" value="stand"/>
 
+    <xacro:property name="lift_movable" value="${'$(arg variant)' != 'v0'}"/>
+
     <xacro:include filename="$(find fiveages_w2_common_description)/xacro/components/stand.xacro"/>
-    <xacro:stand collider="$(arg collider)"/>
+    <xacro:stand collider="$(arg collider)" lift_movable="${lift_movable}"/>
 
     <xacro:include filename="$(find fiveages_w2_common_description)/xacro/components/torso.xacro"/>
     <xacro:torso

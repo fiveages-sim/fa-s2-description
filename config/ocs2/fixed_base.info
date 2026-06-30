@@ -41,9 +41,9 @@ initialState
 {
     arm
     {
-        (0,0)   0.0     ; body_joint1  lift [m]
-        (1,0)   0.0     ; body_joint2  rotate [rad]
-        (2,0)   0.0     ; body_joint3  pitch [rad]
+        (0,0)   0.0     ; lift_joint   lift [m]
+        (1,0)   0.0     ; body_joint1  rotate [rad]
+        (2,0)   0.0     ; body_joint2  pitch [rad]
         (3,0)   0.0     ; left_joint1
         (4,0)   0.0     ; left_joint2
         (5,0)   0.0     ; left_joint3
@@ -139,9 +139,9 @@ inputCost
         arm
         {
             scaling 1e-3
-            (0,0)   1.0     ; body_joint1
-            (1,0)   1.0     ; body_joint2
-            (2,0)   1.0     ; body_joint3
+            (0,0)   1.0     ; lift_joint
+            (1,0)   1.0     ; body_joint1
+            (2,0)   1.0     ; body_joint2
             (3,0)   1.0     ; left_joint1
             (4,0)   1.0     ; left_joint2
             (5,0)   1.0     ; left_joint3
@@ -233,9 +233,9 @@ jointVelocityLimits
     {
         arm
         {
-            (0,0)  -0.2         ; body_joint1 lift [m/s]
-            (1,0)  -0.5         ; body_joint2 [rad/s]
-            (2,0)  -0.5         ; body_joint3 [rad/s]
+            (0,0)  -0.2         ; lift_joint lift [m/s]
+            (1,0)  -0.5         ; body_joint1 [rad/s]
+            (2,0)  -0.5         ; body_joint2 [rad/s]
             (3,0)  -1.07
             (4,0)  -1.07
             (5,0)  -1.07
