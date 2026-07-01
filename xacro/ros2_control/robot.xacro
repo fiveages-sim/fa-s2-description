@@ -43,13 +43,31 @@
 			<xacro:dual_arm_ee_block mode="real"/>
 		</ros2_control>
 
-		<!-- TODO: stand hardware plugin (distinct from juxie body_joint1~6) -->
-		<ros2_control name="stand_system" type="system">
+		<!-- juxie CAN: body_joint1~2 + head_joint1~2 (motor_ids order must match) -->
+		<ros2_control name="juxie_body" type="system">
 			<hardware>
-				<plugin>mock_components/GenericSystem</plugin>
+				<plugin>juxie_ros2_control/JxHardware</plugin>
+				<param name="can_interface">can0</param>
+				<param name="motor_ids">1,2,3,4</param>
+				<param name="control_period_ms">2</param>
 			</hardware>
-			<xacro:stand_interfaces lift_movable="${lift_movable}"/>
+			<xacro:stand_interfaces lift_movable="false"/>
 		</ros2_control>
+
+		<!-- lift_joint has no CAN motor on S2; mock only when URDF exposes lift -->
+		<xacro:if value="${lift_movable}">
+			<ros2_control name="stand_lift" type="system">
+				<hardware>
+					<plugin>mock_components/GenericSystem</plugin>
+				</hardware>
+				<joint name="lift_joint">
+					<command_interface name="position"/>
+					<state_interface name="position"/>
+					<state_interface name="velocity"/>
+					<state_interface name="effort"/>
+				</joint>
+			</ros2_control>
+		</xacro:if>
 
 		<xacro:external_ee_systems
 			usb_left_port="$(arg usb_left_port)"
