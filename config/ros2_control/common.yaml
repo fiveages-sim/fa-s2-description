@@ -122,6 +122,17 @@ ocs2_wbc_controller:
     waist_lifting_enabled: true
     waist_lifting_duration: 3.0
     waist_lifting_type: single_joint
+    # single_joint height mapping: stand_link3 height in body_base = raw_joint * direction + offset
+    # stand.xacro: lift_joint axis is 0 0 -1, lower=-0.1, upper=0.19.
+    # stand_link1 lift height offset is 0.19; stand_link1->stand_link3 is 0.547+0.116=0.663.
+    # q=0.19 -> height=0.663; q=-0.1 -> height=0.953.
+    waist_single_joint_direction: -1.0
+    waist_single_joint_offset: 0.853
+    # single_joint pitch mapping: phi = raw_pitch_joint * direction + offset
+    # Convention: forward pitch is positive, backward pitch is negative.
+    waist_single_joint_pitch_joint: body_joint2
+    waist_single_joint_pitch_direction: 1.0
+    waist_single_joint_pitch_offset: 0.0
     # lift_joint: joint value increase = physical down; negate max speed so +command = up
     waist_lifting_default_parameter: [-0.02, 0.5, 1.0]
     waist_turning_default_parameter: [0.2, 0.5, 1.0]
@@ -188,6 +199,17 @@ body_joint_controller:
     waist_lifting_enabled: true
     waist_lifting_duration: 3.0
     waist_lifting_type: single_joint
+    # single_joint height mapping: stand_link3 height in body_base = raw_joint * direction + offset
+    # stand.xacro: lift_joint axis is 0 0 -1, lower=-0.1, upper=0.19.
+    # stand_link1 lift height offset is 0.19; stand_link1->stand_link3 is 0.547+0.116=0.663.
+    # q=0.19 -> height=0.663; q=-0.1 -> height=0.953.
+    waist_single_joint_direction: -1.0
+    waist_single_joint_offset: 0.853
+    # single_joint pitch mapping: phi = raw_pitch_joint * direction + offset
+    # Convention: forward pitch is positive, backward pitch is negative.
+    waist_single_joint_pitch_joint: body_joint2
+    waist_single_joint_pitch_direction: 1.0
+    waist_single_joint_pitch_offset: 0.0
     # lift_joint: joint value increase = physical down; negate max speed so +command = up
     waist_lifting_default_parameter: [-0.02, 0.5, 1.0]
     waist_turning_default_parameter: [0.2, 0.5, 1.0]
