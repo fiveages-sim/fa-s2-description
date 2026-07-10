@@ -210,6 +210,26 @@ headCoupling
     }
 }
 
+customJointLock
+{
+    activate                        true
+    lockedJointIndices
+    {
+        [0] 1                       ; lift_joint
+    }
+
+    waistPhiPositiveBias
+    {
+        activate                    true
+        waistType                   "single_joint"
+        pitchJointIndex             2       ; body_joint2 pitch
+        pitchDirection              1.0
+        pitchOffset                 0.0
+        lowerBoundRad               0.0
+        mu                          5.0
+    }
+}
+
 armLock
 {
     activate                        true
