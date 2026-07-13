@@ -218,7 +218,7 @@ armLock
 jointPositionLimits
 {
     activate                        true
-    mu                              1e-2
+    mu                              1e-3
     delta                           1e-3
 }
 

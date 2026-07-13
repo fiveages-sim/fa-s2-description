@@ -8,8 +8,8 @@
 	<xacro:arg name="right_ee_drive_type" default=""/>
 	<xacro:arg name="left_dyn_param" default=""/>
 	<xacro:arg name="right_dyn_param" default=""/>
-	<xacro:arg name="max_joint_speed" default="50"/>
-	<xacro:arg name="max_joint_acceleration" default="30"/>
+	<xacro:arg name="max_joint_speed" default="100"/>
+	<xacro:arg name="max_joint_acceleration" default="100"/>
 	<xacro:arg name="usb_left_port" default="/dev/ttyUSB0"/>
 	<xacro:arg name="usb_right_port" default="/dev/ttyUSB2"/>
 	<xacro:arg name="variant" default=""/>
