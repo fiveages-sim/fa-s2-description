@@ -1,0 +1,320 @@
+; OCS2 Fixed-Base Configuration - FiveAges S2 Stand (variant v0, no lift DOF)
+; =============================================================================
+
+model_information
+{
+    manipulatorModelType    0
+    baseFrame               "base_footprint"
+    eeFrame                 "left_eef"
+    eeFrame1                "right_eef"
+
+    removeJoints
+    {
+        [0]   "lift_joint"
+        [1]   "left_gripper_joint"
+        [2]   "right_gripper_joint"
+        [3]   "left_right_finger_joint"
+        [4]   "right_right_finger_joint"
+        [5]   "left_left_in_Joint"
+        [6]   "left_left_up_Joint"
+        [7]   "left_left_2_Joint"
+        [8]   "left_right_2_Joint"
+        [9]   "left_right_1_Joint"
+        [10]  "left_right_in_Joint"
+        [11]  "left_right_up_Joint"
+        [12]  "right_left_in_Joint"
+        [13]  "right_left_up_Joint"
+        [14]  "right_left_2_Joint"
+        [15]  "right_right_2_Joint"
+        [16]  "right_right_1_Joint"
+        [17]  "right_right_in_Joint"
+        [18]  "right_right_up_Joint"
+    }
+}
+
+model_settings
+{
+    usePreComputation       true
+    recompileLibraries      true
+}
+
+initialState
+{
+    arm
+    {
+        (0,0)   0.0     ; body_joint1  rotate [rad]
+        (1,0)   0.0     ; body_joint2  pitch [rad]
+        (2,0)   0.0     ; left_joint1
+        (3,0)   0.0     ; left_joint2
+        (4,0)   0.0     ; left_joint3
+        (5,0)   0.0     ; left_joint4
+        (6,0)   0.0     ; left_joint5
+        (7,0)   0.0     ; left_joint6
+        (8,0)   0.0     ; left_joint7
+        (9,0)   0.0     ; right_joint1
+        (10,0)  0.0     ; right_joint2
+        (11,0)  0.0     ; right_joint3
+        (12,0)  0.0     ; right_joint4
+        (13,0)  0.0     ; right_joint5
+        (14,0)  0.0     ; right_joint6
+        (15,0)  0.0     ; right_joint7
+        (16,0)  0.0     ; head_joint1
+        (17,0)  0.0     ; head_joint2
+    }
+}
+
+initialModeSchedule
+{
+    eventTimes
+    {
+    }
+
+    modeSequence
+    {
+        [0]     HM_DUAL_RELATIVE_FIXED_BASE
+    }
+}
+
+ddp
+{
+    algorithm                       SLQ
+    nThreads                        3
+    threadPriority                  50
+    maxNumIterations                1
+    minRelCost                      0.1
+    constraintTolerance             1e-3
+    displayInfo                     false
+    displayShortSummary             false
+    checkNumericalStability         false
+    debugPrintRollout               false
+    debugCaching                    false
+    AbsTolODE                       1e-5
+    RelTolODE                       1e-3
+    maxNumStepsPerSecond            100000
+    timeStep                        1e-3
+    backwardPassIntegratorType      ODE45
+    constraintPenaltyInitialValue   20.0
+    constraintPenaltyIncreaseRate   2.0
+    preComputeRiccatiTerms          true
+    useFeedbackPolicy               false
+    strategy                        LINE_SEARCH
+    lineSearch
+    {
+        minStepLength                   1e-2
+        maxStepLength                   1.0
+        hessianCorrectionStrategy       DIAGONAL_SHIFT
+        hessianCorrectionMultiple       1e-3
+    }
+}
+
+mpc
+{
+    timeHorizon                     1.0
+    solutionTimeWindow              0.2
+    coldStart                       false
+    debugPrint                      false
+    mpcDesiredFrequency             100
+    mrtDesiredFrequency             400
+}
+
+rollout
+{
+    AbsTolODE                       1e-5
+    RelTolODE                       1e-3
+    timeStep                        1e-2
+    integratorType                  ODE45
+    maxNumStepsPerSecond            100000
+    checkNumericalStability         false
+}
+
+bodyTrackingEE
+{
+    activate  true
+}
+
+inputCost
+{
+    R
+    {
+        arm
+        {
+            scaling 1e-3
+            (0,0)   1.0     ; body_joint1
+            (1,0)   1.0     ; body_joint2
+            (2,0)   1.0     ; left_joint1 速度惩罚
+            (3,0)   1.0     ; left_joint2 速度惩罚
+            (4,0)   1.0     ; left_joint3 速度惩罚
+            (5,0)   1.0     ; left_joint4 速度惩罚
+            (6,0)   0.1     ; left_joint5 速度惩罚
+            (7,0)   0.1     ; left_joint6 速度惩罚
+            (8,0)   0.1     ; left_joint7 速度惩罚
+            (9,0)   1.0     ; right_joint1 速度惩罚
+            (10,0)  1.0     ; right_joint2 速度惩罚
+            (11,0)  1.0     ; right_joint3 速度惩罚
+            (12,0)  1.0     ; right_joint4 速度惩罚
+            (13,0)  0.1     ; right_joint5 速度惩罚
+            (14,0)  0.1     ; right_joint6 速度惩罚
+            (15,0)  0.1     ; right_joint7 速度惩罚
+            (16,0)  1.0     ; head_joint1
+            (17,0)  1.0     ; head_joint2
+        }
+    }
+}
+
+endEffector
+{
+    muPosition                      10.0
+    muOrientation                   5.0
+}
+
+finalEndEffector
+{
+    muPosition                      20.0
+    muOrientation                   10.0
+}
+
+bodyRelative
+{
+    activate                        true
+    bodyLinkName                    "body_link4"
+    muPosition                      5.0
+    muOrientation                   5.0
+}
+
+bimanualCoupling
+{
+    activate                        true
+    muPosition                      50.0
+    muOrientation                   25.0
+}
+
+headInputStart                          16
+
+waistLock
+{
+    activate                        true
+    numJoints                       2
+}
+
+customJointLock
+{
+    activate                        true
+    lockedJointIndices
+    {
+    }
+
+    waistPhiPositiveBias
+    {
+        activate                    true
+        waistType                   "single_joint"
+        pitchJointIndex             1       ; body_joint2 pitch
+        pitchDirection              1.0
+        pitchOffset                 0.0
+        lowerBoundRad               0.0
+        mu                          5.0
+    }
+}
+
+headCoupling
+{
+    activate                        true
+    waistJointIndex                 0
+    headJointIndex                  16
+    alpha                           1.0
+    lockedWaistJoints
+    {
+        [0] 1
+    }
+}
+
+armLock
+{
+    activate                        true
+    leftNumJoints                   7
+    rightNumJoints                  7
+}
+
+jointPositionLimits
+{
+    activate                        true
+    mu                              1e-3
+    delta                           1e-3
+}
+
+jointVelocityLimits
+{
+    mu                              1e-2
+    delta                           1e-3
+
+    lowerBound
+    {
+        arm
+        {
+            (0,0)  -0.5         ; body_joint1 [rad/s]
+            (1,0)  -0.5         ; body_joint2 [rad/s]
+            (2,0)  -2.07        ; left_joint1 [rad/s]
+            (3,0)  -2.07        ; left_joint2 [rad/s]
+            (4,0)  -2.07        ; left_joint3 [rad/s]
+            (5,0)  -2.07        ; left_joint4 [rad/s]
+            (6,0)  -2.57        ; left_joint5 [rad/s]
+            (7,0)  -2.57        ; left_joint6 [rad/s]
+            (8,0)  -2.57        ; left_joint7 [rad/s]
+            (9,0)  -2.07        ; right_joint1 [rad/s]
+            (10,0) -2.07        ; right_joint2 [rad/s]
+            (11,0) -2.07        ; right_joint3 [rad/s]
+            (12,0) -2.07        ; right_joint4 [rad/s]
+            (13,0) -2.57        ; right_joint5 [rad/s]
+            (14,0) -2.57        ; right_joint6 [rad/s]
+            (15,0) -2.57        ; right_joint7 [rad/s]
+            (16,0) -1.5         ; head_joint1 [rad/s]
+            (17,0) -1.5         ; head_joint2 [rad/s]
+        }
+    }
+
+    upperBound
+    {
+        arm
+        {
+            (0,0)  0.5          ; body_joint1 [rad/s]
+            (1,0)  0.5          ; body_joint2 [rad/s]
+            (2,0)  2.07         ; left_joint1 [rad/s]
+            (3,0)  2.07         ; left_joint2 [rad/s]
+            (4,0)  2.07         ; left_joint3 [rad/s]
+            (5,0)  2.07         ; left_joint4 [rad/s]
+            (6,0)  2.57         ; left_joint5 [rad/s]
+            (7,0)  2.57         ; left_joint6 [rad/s]
+            (8,0)  2.57         ; left_joint7 [rad/s]
+            (9,0)  2.07         ; right_joint1 [rad/s]
+            (10,0) 2.07         ; right_joint2 [rad/s]
+            (11,0) 2.07         ; right_joint3 [rad/s]
+            (12,0) 2.07         ; right_joint4 [rad/s]
+            (13,0) 2.57         ; right_joint5 [rad/s]
+            (14,0) 2.57         ; right_joint6 [rad/s]
+            (15,0) 2.57         ; right_joint7 [rad/s]
+            (16,0) 1.5          ; head_joint1 [rad/s]
+            (17,0) 1.5          ; head_joint2 [rad/s]
+        }
+    }
+}
+
+selfCollision
+{
+    activate                        true
+    mu                              1e-3
+    delta                           1e-2
+    minimumDistance                 0.01
+    collisionObjectPairs
+    {
+    }
+    collisionLinkPairs
+    {
+        [0] "body_link4, left_link3",
+        [1] "body_link4, left_link4",
+        [2] "body_link4, left_link5",
+        [3] "body_link4, left_link7",
+        [4] "body_link4, right_link3",
+        [5] "body_link4, right_link4",
+        [6] "body_link4, right_link5",
+        [7] "body_link4, right_link7",
+    }
+}

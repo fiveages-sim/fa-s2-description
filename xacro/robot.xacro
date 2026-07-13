@@ -25,6 +25,14 @@
     <xacro:include filename="$(find fiveages_w2_common_description)/xacro/components/stand.xacro"/>
     <xacro:stand collider="$(arg collider)" lift_movable="${lift_movable}"/>
 
+    <!-- Waist planning reference frame: fixed on base_link at lift_joint upper limit -->
+    <link name="body_base"/>
+    <joint name="body_base_joint" type="fixed">
+        <origin xyz="0 0 -0.378" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="body_base"/>
+    </joint>
+
     <xacro:include filename="$(find fiveages_w2_common_description)/xacro/components/torso.xacro"/>
     <xacro:torso
             variant="$(arg variant)"
