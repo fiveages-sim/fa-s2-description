@@ -1,6 +1,6 @@
 # FiveAges S2 Description
 
-立柱固定底座人形 S2 的 URDF / ros2_control 描述包。模型在 **`xacro/`**；立柱 / 躯干 / 头部在 [`fiveages_w2_common_description`](../fiveages_w2_common_description/README.md)；双臂与末端复用 [`m6_ccs_description`](../../manipulator/Tianji/m6_ccs_description/README.md)（`M6_CCS` 臂、`eefs.xacro`、共享 ros2_control 宏）。
+立柱固定底座人形 S2 的 URDF / ros2_control 描述包。模型在 **`xacro`**；立柱 / 躯干 / 头部在 [`fiveages_w2_common_description`](../fiveages_w2_common_description/README.md)；双臂与末端复用 [`m6_ccs_description`](../../manipulator/Tianji/m6_ccs_description/README.md)（`M6_CCS` 臂、`eefs.xacro`、共享 ros2_control 宏）。
 
 ```bash
 cd ~/ros2_ws && colcon build --packages-up-to fiveages_s2_description --symlink-install
