@@ -10,7 +10,6 @@
 	<xacro:arg name="right_dyn_param" default=""/>
 	<xacro:arg name="max_joint_speed" default="100"/>
 	<xacro:arg name="max_joint_acceleration" default="100"/>
-	<xacro:arg name="body_can_interface" default="can0"/>
 	<xacro:arg name="usb_left_port" default="/dev/ttyUSB0"/>
 	<xacro:arg name="usb_right_port" default="/dev/ttyUSB2"/>
 	<xacro:arg name="left_ee_can_interface" default="can0"/>
@@ -53,7 +52,7 @@
 		<ros2_control name="juxie_body" type="system">
 			<hardware>
 				<plugin>juxie_ros2_control/JxHardware</plugin>
-				<param name="can_interface">$(arg body_can_interface)</param>
+				<param name="can_interface">can0</param>
 				<param name="motor_ids">1,2,3,4</param>
 				<param name="control_period_ms">2</param>
 			</hardware>

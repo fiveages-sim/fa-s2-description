@@ -129,7 +129,6 @@ hardware:
   arm_ctrl_mode: position
   max_joint_speed: 50
   max_joint_acceleration: 30
-  body_can_interface: can0
   usb_left_port: /dev/ttyUSB0
   usb_right_port: /dev/ttyUSB2
   left_ee_can_interface: can0
