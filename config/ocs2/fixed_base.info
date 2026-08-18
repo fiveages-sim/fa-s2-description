@@ -215,7 +215,7 @@ customJointLock
     activate                        true
     lockedJointIndices
     {
-        [0] 1                       ; lift_joint
+        [0] 0                       ; lift_joint
     }
 
     waistPhiPositiveBias
@@ -227,6 +227,21 @@ customJointLock
         pitchOffset                 0.0
         lowerBoundRad               0.0
         mu                          5.0
+    }
+}
+
+; HOME 关节参考：打开后把未排除关节软拉向 controller HOME。
+; mu 与关节限位同量级，避免压过末端追踪。
+; 输入布局：[lift(1) | body_joint1~2 | left(7) | right(7) | head(2)]
+; 排除 lift_joint（升降 / 自定义锁定）；纳入 body_joint1（yaw）与 body_joint2（俯仰）。
+homeJointReference
+{
+    activate                        true
+    activateDefault                 false
+    mu                              1e-3
+    excludeJointIndices
+    {
+        [0] 0                       ; lift_joint
     }
 }
 

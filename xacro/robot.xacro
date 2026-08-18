@@ -3,7 +3,7 @@
 
     <xacro:arg name="collider" default="simple"/>
     <xacro:arg name="eef_fixed_joints" default="false"/>
-    <xacro:arg name="variant" default=""/>
+    <xacro:arg name="variant" default="v0"/>
 
     <xacro:arg name="type" default=""/>
     <xacro:arg name="left_type" default=""/>

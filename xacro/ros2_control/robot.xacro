@@ -12,7 +12,7 @@
 	<xacro:arg name="max_joint_acceleration" default="100"/>
 	<xacro:arg name="usb_left_port" default="/dev/ttyUSB0"/>
 	<xacro:arg name="usb_right_port" default="/dev/ttyUSB2"/>
-	<xacro:arg name="variant" default=""/>
+	<xacro:arg name="variant" default="v0"/>
 
 	<xacro:property name="is_real_hardware" value="${'$(arg ros2_control_hardware_type)' == 'real' or '$(arg ros2_control_hardware_type)' == 'real_usb'}"/>
 	<xacro:property name="ee_drive_type" value="${'usb' if '$(arg ros2_control_hardware_type)' == 'real_usb' else ('marvin' if '$(arg ros2_control_hardware_type)' == 'real' else '')}"/>

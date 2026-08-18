@@ -5,8 +5,8 @@ model_information
 {
     manipulatorModelType    0
     baseFrame               "base_footprint"
-    eeFrame                 "left_eef"
-    eeFrame1                "right_eef"
+    eeFrame                 "left_tcp"
+    eeFrame1                "right_tcp"
 
     removeJoints
     {
@@ -212,6 +212,20 @@ customJointLock
         pitchOffset                 0.0
         lowerBoundRad               0.0
         mu                          5.0
+    }
+}
+
+; HOME 关节参考：打开后把未排除关节软拉向 controller HOME。
+; mu 与关节限位同量级，避免压过末端追踪。
+; 输入布局：[body_joint1~2 | left(7) | right(7) | head(2)]（无 lift）
+; 高动态 tcp 变体默认开启（activateDefault true）。
+homeJointReference
+{
+    activate                        true
+    activateDefault                 true
+    mu                              1e-3
+    excludeJointIndices
+    {
     }
 }
 

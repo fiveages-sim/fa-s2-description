@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <robot name="FiveAges S2" xmlns:xacro="http://www.ros.org/wiki/xacro">
 	<xacro:arg name="type" default="arms"/>
-	<xacro:arg name="variant" default=""/>
+	<xacro:arg name="variant" default="v0"/>
 	<xacro:arg name="collider" default="simple"/>
 
 	<xacro:if value="${'$(arg type)' == 'arms'}">
