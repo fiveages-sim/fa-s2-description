@@ -10,8 +10,13 @@
 	<xacro:arg name="right_dyn_param" default=""/>
 	<xacro:arg name="max_joint_speed" default="100"/>
 	<xacro:arg name="max_joint_acceleration" default="100"/>
+	<xacro:arg name="body_can_interface" default="can0"/>
 	<xacro:arg name="usb_left_port" default="/dev/ttyUSB0"/>
 	<xacro:arg name="usb_right_port" default="/dev/ttyUSB2"/>
+	<xacro:arg name="left_ee_can_interface" default="can0"/>
+	<xacro:arg name="right_ee_can_interface" default="can1"/>
+	<xacro:arg name="left_read_tactile" default="false"/>
+	<xacro:arg name="right_read_tactile" default="false"/>
 	<xacro:arg name="variant" default="v0"/>
 
 	<xacro:property name="is_real_hardware" value="${'$(arg ros2_control_hardware_type)' == 'real' or '$(arg ros2_control_hardware_type)' == 'real_usb'}"/>
@@ -41,13 +46,14 @@
 					right_dyn_param="$(arg right_dyn_param)"/>
 			</hardware>
 			<xacro:dual_arm_ee_block mode="real"/>
+			<xacro:marvin_ft_sensor_interfaces/>
 		</ros2_control>
 
 		<!-- juxie CAN: body_joint1~2 + head_joint1~2 (motor_ids order must match) -->
 		<ros2_control name="juxie_body" type="system">
 			<hardware>
 				<plugin>juxie_ros2_control/JxHardware</plugin>
-				<param name="can_interface">can0</param>
+				<param name="can_interface">$(arg body_can_interface)</param>
 				<param name="motor_ids">1,2,3,4</param>
 				<param name="control_period_ms">2</param>
 			</hardware>
@@ -71,7 +77,11 @@
 
 		<xacro:external_ee_systems
 			usb_left_port="$(arg usb_left_port)"
-			usb_right_port="$(arg usb_right_port)"/>
+			usb_right_port="$(arg usb_right_port)"
+			left_ee_can_interface="$(arg left_ee_can_interface)"
+			right_ee_can_interface="$(arg right_ee_can_interface)"
+			left_read_tactile="$(arg left_read_tactile)"
+			right_read_tactile="$(arg right_read_tactile)"/>
 	</xacro:if>
 
 	<xacro:unless value="${is_real_hardware}">

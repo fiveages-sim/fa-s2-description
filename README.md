@@ -118,16 +118,32 @@ ros2 launch ocs2_arm_controller split_body.launch.py robot:=fiveages_s2 hardware
 defaults:
   end_effectors:
     type: ag2f90_c
+  ft:
+    left: kwr75_485
+    right: none
+  tcp_offset:
+    xyz: "0 0 0"
+    rpy: "0 0 0"
 hardware:
   device_ip: 192.168.1.190
   arm_ctrl_mode: position
   max_joint_speed: 50
   max_joint_acceleration: 30
+  body_can_interface: can0
   usb_left_port: /dev/ttyUSB0
   usb_right_port: /dev/ttyUSB2
+  left_ee_can_interface: can0
+  right_ee_can_interface: can1
+  left_read_tactile: "false"
+  right_read_tactile: "false"
   left_ee_drive_type: marvin
   right_ee_drive_type: marvin
 ```
+
+`ft` 可取 `none`、`kwr75_485` 或 `kwr75_usb`。使用 `kwr75_usb` 时可在
+`hardware` 中设置 `usb_left_ft_port` / `usb_right_ft_port`。TCP 偏移支持
+对称的 `xyz` / `rpy`，也支持 `left_xyz`、`left_rpy`、`right_xyz`、
+`right_rpy` 分侧配置。
 
 ### 分体控制常用话题（`split_body`）
 

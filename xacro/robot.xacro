@@ -8,6 +8,10 @@
     <xacro:arg name="type" default=""/>
     <xacro:arg name="left_type" default=""/>
     <xacro:arg name="right_type" default=""/>
+    <xacro:arg name="left_tcp_offset_xyz" default="0 0 0"/>
+    <xacro:arg name="left_tcp_offset_rpy" default="0 0 0"/>
+    <xacro:arg name="right_tcp_offset_xyz" default="0 0 0"/>
+    <xacro:arg name="right_tcp_offset_rpy" default="0 0 0"/>
     <xacro:property name="type_arg" value="$(arg type)"/>
     <xacro:property name="left_type_arg" value="$(arg left_type)"/>
     <xacro:property name="right_type_arg" value="$(arg right_type)"/>
@@ -49,8 +53,12 @@
     <xacro:DualArmMount parent="arm_base"/>
 
     <xacro:include filename="$(find m6_ccs_description)/xacro/arm.xacro"/>
-    <xacro:M6_CCS name="left" skin="fiveages_w2" variant="$(arg variant)"/>
-    <xacro:M6_CCS name="right" direction="-1" skin="fiveages_w2" variant="$(arg variant)"/>
+    <xacro:M6_CCS name="left" skin="fiveages_w2" variant="$(arg variant)"
+        tcp_offset_xyz="$(arg left_tcp_offset_xyz)"
+        tcp_offset_rpy="$(arg left_tcp_offset_rpy)"/>
+    <xacro:M6_CCS name="right" direction="-1" skin="fiveages_w2" variant="$(arg variant)"
+        tcp_offset_xyz="$(arg right_tcp_offset_xyz)"
+        tcp_offset_rpy="$(arg right_tcp_offset_rpy)"/>
 
     <xacro:include filename="$(find m6_ccs_description)/xacro/eefs.xacro"/>
     <xacro:EndEffectors
