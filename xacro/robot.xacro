@@ -29,7 +29,7 @@
     <xacro:include filename="$(find fiveages_w2_common_description)/xacro/components/stand.xacro"/>
     <xacro:stand collider="$(arg collider)" lift_movable="${lift_movable}"/>
 
-    <!-- Waist planning reference frame: fixed on base_link at lift_joint upper limit -->
+    <!-- Waist planning reference frame: fixed on base_link at lift_joint lower limit (q=0, fully down) -->
     <link name="body_base"/>
     <joint name="body_base_joint" type="fixed">
         <origin xyz="0 0 -0.378" rpy="0 0 0"/>

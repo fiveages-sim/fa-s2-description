@@ -41,7 +41,7 @@ initialState
 {
     arm
     {
-        (0,0)   0.0     ; lift_joint   lift [m]
+        (0,0)   0.0    ; lift_joint   lift [m]  (0=down, 0.29=up)
         (1,0)   0.0     ; body_joint1  rotate [rad]
         (2,0)   0.0     ; body_joint2  pitch [rad]
         (3,0)   0.0     ; left_joint1

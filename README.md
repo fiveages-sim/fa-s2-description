@@ -69,7 +69,7 @@ S2 特有：`hardware:=real` 时臂走 Marvin；外接 `usb` / `usb_can` 末端�
 
 | 层级 | 包 / xacro | 说明 |
 |------|------------|------|
-| 立柱 | `fiveages_w2_common` `stand.xacro` | `lift_joint` [m] + `body_joint1~2` [rad]；子款见 [§2](#2-平台子款variant) |
+| 立柱 | `fiveages_w2_common` `stand.xacro` | `lift_joint` [0, 0.29] m（增大往上）+ `body_joint1~2` [rad]；子款见 [§2](#2-平台子款variant) |
 | 躯干 / 头 | `fiveages_w2_common` `torso.xacro` / `head.xacro` | 头固定 `stand` 限位；躯干可接 OEM `variant` |
 | 双臂 | `m6_ccs` `M6_CCS` | `skin:=fiveages_w2`；碰撞与 m6 共用 `link*.glb` |
 | 末端 | `m6_ccs` `eefs.xacro` | 与 m6_ccs 一致 |
@@ -151,7 +151,7 @@ hardware:
 ros2 topic pub /head_joint_controller/target_joint_position std_msgs/msg/Float64MultiArray "{data: [0.0, 0.5]}"
 # 腰（仅 split_body）：默认 `v0` 为 2 维 body_joint1~2 [rad]；可升降款（variant:=""）为 3 维 lift_joint [m] + body_joint1~2 [rad]
 ros2 topic pub /body_joint_controller/target_joint_position std_msgs/msg/Float64MultiArray \
-  "{data: [0.045, 0.0, 0.0]}"
+  "{data: [0.145, 0.0, 0.0]}"
 # 腰升降 / 转向（默认款；v0 无升降，仅转向有效）
 ros2 topic pub /body_joint_controller/waist_lifting_command std_msgs/msg/Float64 "data: 0.5"
 ros2 topic pub /body_joint_controller/waist_turning_command std_msgs/msg/Float64 "data: -0.3"
