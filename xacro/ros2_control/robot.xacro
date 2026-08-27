@@ -55,6 +55,8 @@
 				<param name="can_interface">can0</param>
 				<param name="motor_ids">1,2,3,4</param>
 				<param name="control_period_ms">2</param>
+				<param name="max_position_step_nct">25</param>
+				<param name="max_position_accel_nct">5</param>
 			</hardware>
 			<xacro:stand_interfaces lift_movable="false"/>
 		</ros2_control>
