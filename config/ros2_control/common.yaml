@@ -148,6 +148,7 @@ ocs2_wbc_controller:
     # lift_joint: joint value increase = physical up
     waist_lifting_default_parameter: [0.02, 0.5, 1.0]
     waist_turning_default_parameter: [0.2, 0.5, 1.0]
+    waist_turning_direction: -1.0  # body_joint4 方向：左转为正，FA_WCE3 关节轴为 -Z
 
     cartesian_defaults:
       frame_id: arm_base
@@ -223,6 +224,7 @@ body_joint_controller:
     # lift_joint: joint value increase = physical up
     waist_lifting_default_parameter: [0.02, 0.5, 1.0]
     waist_turning_default_parameter: [0.2, 0.5, 1.0]
+    waist_turning_direction: -1.0  # body_joint4 方向：左转为正，FA_WCE3 关节轴为 -Z
 
 left_gripper_controller:
   ros__parameters:
