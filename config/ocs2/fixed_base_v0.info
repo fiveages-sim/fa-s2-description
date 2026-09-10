@@ -332,3 +332,29 @@ selfCollision
         [7] "body_link4, right_link7",
     }
 }
+
+;=============================================================================
+; Head Midpoint Gaze Constraint
+; 头部相机注视双手中点：仅由头部模式 HEAD_GAZE 独立控制，与身体模式（body mode，
+; 含 CUSTOM_LOCKED）无关，也不要求 customJointLock.activate = true。
+; fx/fy/cx/cy/width/height 为首版测试值，取自
+; ros2_robot_interface/dynamics/box_fov_estimator.py 的 DEFAULT_HEAD_CAMERA_INTRINSICS。
+;=============================================================================
+
+headMidpointGaze
+{
+    activate                    true
+    cameraFrame                 "head_camera"
+    fx                          611.864502
+    fy                          611.478271
+    cx                          638.961182
+    cy                          363.642456
+    width                       1280
+    height                      720
+    horizontalDeadbandDeg       10.0    ; 水平免惩罚半角（度），仅惩罚超出部分
+    verticalDeadbandDeg         10.0    ; 垂直免惩罚半角（度），仅惩罚超出部分
+    muAlignmentHorizontal       1.0     ; 左右对齐权重
+    muAlignmentVertical         0.0     ; 上下对齐权重，0 表示关闭
+    muFront                     1.0
+    minDepth                    0.3
+}
