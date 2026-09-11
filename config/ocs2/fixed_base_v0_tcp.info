@@ -71,7 +71,11 @@ initialModeSchedule
 
     modeSequence
     {
-        [0]     HM_DUAL_RELATIVE_FIXED_BASE
+        [0]
+        {
+            bodyMode "HM_DUAL_RELATIVE_FIXED_BASE"
+            headMode "HEAD_GAZE"
+        }
     }
 }
 
