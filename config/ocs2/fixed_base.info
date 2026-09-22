@@ -1,5 +1,6 @@
-; OCS2 Fixed-Base Configuration - FiveAges S2 Stand
-; =================================================
+; S2 固定底座：可升降立柱 / EEF 精定位
+; 参数基准：W2 fixed_base.info；保留本机立柱约束与 19 维关节布局。
+; 头部软限速按本机 URDF 的 ±1.0 rad/s 设置。
 
 model_information
 {
@@ -7,6 +8,9 @@ model_information
     baseFrame               "base_footprint"
     eeFrame                 "left_eef"
     eeFrame1                "right_eef"
+
+    bodyFrame               "body_link4"
+    headFrame               "head_link2"
 
     removeJoints
     {
@@ -33,7 +37,10 @@ model_information
 
 model_settings
 {
+    ; usePreComputation: true = 提前缓存 Pinocchio 中间量
     usePreComputation       true
+
+    ; recompileLibraries: true = 每次启动重新生成 CppAD 动态库
     recompileLibraries      true
 }
 
@@ -82,25 +89,33 @@ initialModeSchedule
 ddp
 {
     algorithm                       SLQ
+
     nThreads                        3
     threadPriority                  50
+
     maxNumIterations                1
     minRelCost                      0.1
     constraintTolerance             1e-3
+
     displayInfo                     false
     displayShortSummary             false
     checkNumericalStability         false
     debugPrintRollout               false
     debugCaching                    false
+
     AbsTolODE                       1e-5
     RelTolODE                       1e-3
     maxNumStepsPerSecond            100000
     timeStep                        1e-3
     backwardPassIntegratorType      ODE45
+
     constraintPenaltyInitialValue   20.0
     constraintPenaltyIncreaseRate   2.0
+
     preComputeRiccatiTerms          true
+
     useFeedbackPolicy               false
+
     strategy                        LINE_SEARCH
     lineSearch
     {
@@ -113,12 +128,16 @@ ddp
 
 mpc
 {
-    timeHorizon                     1.0
-    solutionTimeWindow              0.2
+    timeHorizon                     1.0     ; [s] 保留精定位配置的预测时域
+    solutionTimeWindow              0.2     ; [s]
     coldStart                       false
+
     debugPrint                      false
-    mpcDesiredFrequency             100
-    mrtDesiredFrequency             400
+
+    ; 独立 MPC/MRT 节点的期望频率；控制器实际频率由 ROS 参数
+    ; mpc_frequency / update_rate 决定，不能仅依据本节判断实际运行频率。
+    mpcDesiredFrequency             100     ; [Hz]
+    mrtDesiredFrequency             500     ; [Hz]
 }
 
 rollout
@@ -133,7 +152,9 @@ rollout
 
 bodyTrackingEE
 {
-    activate  true
+    activate true
+    muPosition 10.0
+    muOrientation 5.0
 }
 
 inputCost
@@ -142,40 +163,43 @@ inputCost
     {
         arm
         {
-            scaling 1e-3
-            (0,0)   1.0     ; lift_joint
-            (1,0)   1.0     ; body_joint1
-            (2,0)   1.0     ; body_joint2
-            (3,0)   1.0     ; left_joint1
-            (4,0)   1.0     ; left_joint2
-            (5,0)   1.0     ; left_joint3
-            (6,0)   1.0     ; left_joint4
-            (7,0)   1.0     ; left_joint5
-            (8,0)   1.0     ; left_joint6
-            (9,0)   1.0     ; left_joint7
-            (10,0)  1.0     ; right_joint1
-            (11,0)  1.0     ; right_joint2
-            (12,0)  1.0     ; right_joint3
-            (13,0)  1.0     ; right_joint4
-            (14,0)  1.0     ; right_joint5
-            (15,0)  1.0     ; right_joint6
-            (16,0)  1.0     ; right_joint7
-            (17,0)  1.0     ; head_joint1
-            (18,0)  1.0     ; head_joint2
+            ; R 为正对角矩阵；实际权重 = scaling * 对角值。
+            ; 升降沿用独立权重 1.0；身体偏航/俯仰对应基准的 body_joint4/3。
+            scaling 5e-2
+
+            (0,0)      1.0     ; lift_joint
+            (1,1)      2.0     ; body_joint1
+            (2,2)      3.0     ; body_joint2
+            (3,3)      0.5     ; left_joint1
+            (4,4)      0.5     ; left_joint2
+            (5,5)      0.5     ; left_joint3
+            (6,6)      0.5     ; left_joint4
+            (7,7)      0.1     ; left_joint5
+            (8,8)      0.1     ; left_joint6
+            (9,9)      0.1     ; left_joint7
+            (10,10)    0.5     ; right_joint1
+            (11,11)    0.5     ; right_joint2
+            (12,12)    0.5     ; right_joint3
+            (13,13)    0.5     ; right_joint4
+            (14,14)    0.1     ; right_joint5
+            (15,15)    0.1     ; right_joint6
+            (16,16)    0.1     ; right_joint7
+            (17,17)    0.1     ; head_joint1
+            (18,18)    0.1     ; head_joint2
         }
     }
 }
 
 endEffector
 {
-    muPosition                      10.0
-    muOrientation                   5.0
+    muPosition                      100.0
+    muOrientation                   50.0
 }
 
 finalEndEffector
 {
-    muPosition                      20.0
-    muOrientation                   10.0
+    muPosition                      200.0
+    muOrientation                   100.0
 }
 
 bodyRelative
@@ -189,8 +213,8 @@ bodyRelative
 bimanualCoupling
 {
     activate                        true
-    muPosition                      50.0
-    muOrientation                   25.0
+    muPosition                      100.0
+    muOrientation                   12.5
 }
 
 headInputStart                          17
@@ -272,25 +296,25 @@ jointVelocityLimits
     {
         arm
         {
-            (0,0)  -0.2         ; lift_joint lift [m/s]
-            (1,0)  -0.5         ; body_joint1 [rad/s]
-            (2,0)  -0.5         ; body_joint2 [rad/s]
-            (3,0)  -1.07
-            (4,0)  -1.07
-            (5,0)  -1.07
-            (6,0)  -1.07
-            (7,0)  -1.07
-            (8,0)  -1.07
-            (9,0)  -1.07
-            (10,0) -1.07
-            (11,0) -1.07
-            (12,0) -1.07
-            (13,0) -1.07
-            (14,0) -1.07
-            (15,0) -1.07
-            (16,0) -1.07
-            (17,0) -1.5
-            (18,0) -1.5
+            (0,0)      -0.2    ; lift_joint
+            (1,0)      -0.5    ; body_joint1
+            (2,0)      -0.5    ; body_joint2
+            (3,0)      -1.57   ; left_joint1
+            (4,0)      -1.57   ; left_joint2
+            (5,0)      -1.57   ; left_joint3
+            (6,0)      -1.57   ; left_joint4
+            (7,0)      -1.57   ; left_joint5
+            (8,0)      -1.57   ; left_joint6
+            (9,0)      -1.57   ; left_joint7
+            (10,0)     -1.57   ; right_joint1
+            (11,0)     -1.57   ; right_joint2
+            (12,0)     -1.57   ; right_joint3
+            (13,0)     -1.57   ; right_joint4
+            (14,0)     -1.57   ; right_joint5
+            (15,0)     -1.57   ; right_joint6
+            (16,0)     -1.57   ; right_joint7
+            (17,0)     -1.0    ; head_joint1
+            (18,0)     -1.0    ; head_joint2
         }
     }
 
@@ -298,25 +322,25 @@ jointVelocityLimits
     {
         arm
         {
-            (0,0)  0.2
-            (1,0)  0.5
-            (2,0)  0.5
-            (3,0)  1.07
-            (4,0)  1.07
-            (5,0)  1.07
-            (6,0)  1.07
-            (7,0)  1.07
-            (8,0)  1.07
-            (9,0)  1.07
-            (10,0) 1.07
-            (11,0) 1.07
-            (12,0) 1.07
-            (13,0) 1.07
-            (14,0) 1.07
-            (15,0) 1.07
-            (16,0) 1.07
-            (17,0) 1.5
-            (18,0) 1.5
+            (0,0)      0.2     ; lift_joint
+            (1,0)      0.5     ; body_joint1
+            (2,0)      0.5     ; body_joint2
+            (3,0)      1.57    ; left_joint1
+            (4,0)      1.57    ; left_joint2
+            (5,0)      1.57    ; left_joint3
+            (6,0)      1.57    ; left_joint4
+            (7,0)      1.57    ; left_joint5
+            (8,0)      1.57    ; left_joint6
+            (9,0)      1.57    ; left_joint7
+            (10,0)     1.57    ; right_joint1
+            (11,0)     1.57    ; right_joint2
+            (12,0)     1.57    ; right_joint3
+            (13,0)     1.57    ; right_joint4
+            (14,0)     1.57    ; right_joint5
+            (15,0)     1.57    ; right_joint6
+            (16,0)     1.57    ; right_joint7
+            (17,0)     1.0     ; head_joint1
+            (18,0)     1.0     ; head_joint2
         }
     }
 }

@@ -74,9 +74,11 @@ S2 特有：`hardware:=real` 时臂走 Marvin；外接 `usb` / `usb_can` 末端�
 | 双臂 | `m6_ccs` `M6_CCS` | `skin:=fiveages_w2`；碰撞与 m6 共用 `link*.glb` |
 | 末端 | `m6_ccs` `eefs.xacro` | 与 m6_ccs 一致 |
 
-OCS2 全身规划：`config/ocs2/fixed_base.info`（可升降，19 DOF）/ `fixed_base_v0.info`（默认，18 DOF）。分体臂 MPC 使用 `m6_ccs` 的 `task.info`（`ocs2_arm_controller.robot_name: m6_ccs`）。
+OCS2 全身规划保留固定底座配置，不提供 `mobile_base`。可升降立柱使用 `fixed_base.info` / `fixed_base_tcp.info`（19 DOF）；默认 `v0` 使用 `fixed_base_v0.info` / `fixed_base_v0_tcp.info`（18 DOF）。普通档跟踪 `left_eef/right_eef`，TCP 档跟踪 `left_tcp/right_tcp`。分体臂 MPC 使用 `m6_ccs` 的 `task.info`（`ocs2_arm_controller.robot_name: m6_ccs`）。
 
-WBC 与 W2 一样配置了 **`homeJointReference`**：未排除的关节会被软拉向控制器 HOME（`mu` 与关节限位同量级）。可升降款排除 `lift_joint`；`v0` 不排除腰关节。高动态 `fixed_base_v0_tcp.info` 默认打开（`activateDefault true`）。
+手臂参数分别以 W2 的 `fixed_base` / `fixed_base_tcp` 为基准：精定位档 R scaling 为 0.05、预测时域 1.0 s、末端过程权重为位置/姿态 `100/50`、终端权重为 `200/100`、臂软限速 ±1.57 rad/s；TCP 档分别为 0.001、0.4 s、`10/5`、`20/10`，J1–J4 软限速 ±2.07、J5–J7 ±2.57 rad/s。R 为正对角矩阵，每臂对角值 `[0.5, 0.5, 0.5, 0.5, 0.1, 0.1, 0.1]`；升降对角值 1.0、腰偏航 2.0、腰俯仰 3.0、头部各 0.1。升降/腰部速度沿用本机设置，头部软限速按 URDF 调整为 ±1.0 rad/s。
+
+WBC 与 W2 一样配置了 **`homeJointReference`**：未排除的关节会被软拉向控制器 HOME（`mu` 与关节限位同量级）。可升降款排除 `lift_joint`；`v0` 不排除腰关节。精定位档默认关闭 HOME 参考、使用 `HEAD_DISABLE`；两份 TCP 档默认打开 HOME 参考、使用 `HEAD_GAZE`。身体模式保留 `HM_DUAL_RELATIVE_FIXED_BASE`，立柱的锁定索引、俯仰偏置和现有约束集合保持不变；不照搬 W2 四腰关节布局。头部垂直注视权重保留本机的 0。
 
 立柱网格：将 SolidWorks STL 放入 `fiveages_w2_common_description/meshes/stand/`（见该包 `meshes/stand/README.md`）。
 
