@@ -20,6 +20,7 @@
   <exec_depend>freedom_description</exec_depend>
   <exec_depend>inspire_description</exec_depend>
   <exec_depend>xhand1_description</exec_depend>
+  <exec_depend>wuji_description</exec_depend>
 
   <exec_depend>ocs2_arm_controller</exec_depend>
   <exec_depend>ocs2_wbc_controller</exec_depend>
