@@ -8,4 +8,7 @@
 
     marker_fixed_frame: base_link
     enable_vr: true
+    # 仅 full_body.launch.py 在确认使用 Ocs2WbcController 时覆盖为 true
+    enable_wbc_head_tracking_marker: false
+    # WBC 6D Marker 切入 HEAD_TRACKING 时用它初始化目标位姿
     head_link_name: "head_link2"

@@ -157,6 +157,14 @@ bodyTrackingEE
     muOrientation 5.0
 }
 
+; 头部 6D 跟踪末端（HEAD_TRACKING）：跟踪 model_information.headFrame
+headTrackingEE
+{
+    activate true
+    muPosition 5.0
+    muOrientation 5.0
+}
+
 inputCost
 {
     R

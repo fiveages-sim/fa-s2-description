@@ -78,7 +78,7 @@ OCS2 全身规划保留固定底座配置，不提供 `mobile_base`。可升降�
 
 手臂参数分别以 W2 的 `fixed_base` / `fixed_base_tcp` 为基准：精定位档 R scaling 为 0.05、预测时域 1.0 s、末端过程权重为位置/姿态 `100/50`、终端权重为 `200/100`、臂软限速 ±1.57 rad/s；TCP 档分别为 0.001、0.4 s、`10/5`、`20/10`，J1–J4 软限速 ±2.07、J5–J7 ±2.57 rad/s。R 为正对角矩阵，每臂对角值 `[0.5, 0.5, 0.5, 0.5, 0.1, 0.1, 0.1]`；升降对角值 1.0、腰偏航 2.0、腰俯仰 3.0、头部各 0.1。升降/腰部速度沿用本机设置，头部软限速按 URDF 调整为 ±1.0 rad/s。
 
-WBC 与 W2 一样配置了 **`homeJointReference`**：未排除的关节会被软拉向控制器 HOME（`mu` 与关节限位同量级）。可升降款排除 `lift_joint`；`v0` 不排除腰关节。精定位档默认关闭 HOME 参考、使用 `HEAD_DISABLE`；两份 TCP 档默认打开 HOME 参考、使用 `HEAD_GAZE`。身体模式保留 `HM_DUAL_RELATIVE_FIXED_BASE`，立柱的锁定索引、俯仰偏置和现有约束集合保持不变；不照搬 W2 四腰关节布局。头部垂直注视权重保留本机的 0。
+WBC 与 W2 一样配置了 **`homeJointReference`**：未排除的关节会被软拉向控制器 HOME（`mu` 与关节限位同量级）。可升降款排除 `lift_joint`；`v0` 不排除腰关节。四份配置均启用 `bodyTrackingEE` 与 `headTrackingEE`（头部位置/姿态权重 `5/5`），因此身体模式「跟随」与头部模式「追踪」（`HEAD_TRACKING`，目标为 `model_information.headFrame`）都可在运行时选择。默认头部模式仍为：精定位档关闭 HOME 参考、使用 `HEAD_DISABLE`；两份 TCP 档打开 HOME 参考、使用 `HEAD_GAZE`。身体模式保留 `HM_DUAL_RELATIVE_FIXED_BASE`，立柱的锁定索引、俯仰偏置和现有约束集合保持不变；不照搬 W2 四腰关节布局。头部垂直注视权重保留本机的 0。
 
 立柱网格：将 SolidWorks STL 放入 `fiveages_w2_common_description/meshes/stand/`（见该包 `meshes/stand/README.md`）。
 
