@@ -12,6 +12,9 @@
 	<xacro:arg name="max_joint_acceleration" default="100"/>
 	<xacro:arg name="usb_left_port" default="/dev/ttyUSB0"/>
 	<xacro:arg name="usb_right_port" default="/dev/ttyUSB2"/>
+	<xacro:arg name="usb_baudrate" default="115200"/>
+	<xacro:arg name="left_ee_modbus_slave_id" default="1"/>
+	<xacro:arg name="right_ee_modbus_slave_id" default="1"/>
 	<xacro:arg name="left_ee_can_interface" default="can0"/>
 	<xacro:arg name="right_ee_can_interface" default="can1"/>
 	<xacro:arg name="left_read_tactile" default="false"/>
@@ -79,6 +82,9 @@
 		<xacro:external_ee_systems
 			usb_left_port="$(arg usb_left_port)"
 			usb_right_port="$(arg usb_right_port)"
+			usb_baudrate="$(arg usb_baudrate)"
+			left_ee_modbus_slave_id="$(arg left_ee_modbus_slave_id)"
+			right_ee_modbus_slave_id="$(arg right_ee_modbus_slave_id)"
 			left_ee_can_interface="$(arg left_ee_can_interface)"
 			right_ee_can_interface="$(arg right_ee_can_interface)"
 			left_read_tactile="$(arg left_read_tactile)"

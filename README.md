@@ -65,6 +65,8 @@ platform:
 
 S2 特有：`hardware:=real` 时臂走 Marvin；外接 `usb` / `usb_can` 末端逻辑与 m6_ccs 共用 `external_ee_systems`。立柱驱动尚未接入（`stand_system` 为 mock）。
 
+DH-3-7 使用 `type:=dh_3_7`，或分别设置 `left_type` / `right_type`。真机末端仅支持 `usb` / `usb_rs485`，串口和从站号配置见 [DH-3-7 配置说明](../../../robot-descriptions-common/gripper/dh_description/README.md#5-robot-integration)。
+
 ## 4. 平台与模型
 
 | 层级 | 包 / xacro | 说明 |

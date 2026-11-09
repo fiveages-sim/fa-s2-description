@@ -17,6 +17,7 @@
   <exec_depend>jodell_description</exec_depend>
   <exec_depend>changingtek_description</exec_depend>
   <exec_depend>linkerhand_description</exec_depend>
+  <exec_depend>dh_description</exec_depend>
   <exec_depend>freedom_description</exec_depend>
   <exec_depend>inspire_description</exec_depend>
   <exec_depend>xhand1_description</exec_depend>
