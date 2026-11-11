@@ -163,7 +163,3 @@ ros2 topic pub /body_joint_controller/waist_turning_command std_msgs/msg/Float64
 ros2 topic pub /ocs2_arm_controller/target_joint_position std_msgs/msg/Float64MultiArray \
   "{data: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}"
 ```
-
-## 7. 导航
-
-S2 为固定底座立柱，**不适用**轮式导航（Nav2 / Linkhou）。轮式 W2 导航见 [fiveages_w2_description README §6](../fiveages_w2_description/README.md#6-导航)。

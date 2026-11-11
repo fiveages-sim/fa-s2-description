@@ -40,8 +40,8 @@ model_settings
     ; usePreComputation: true = 提前缓存 Pinocchio 中间量
     usePreComputation       true
 
-    ; recompileLibraries: true = 每次启动重新生成 CppAD 动态库
-    recompileLibraries      true
+    ; recompileLibraries: false = 复用已有 CppAD 动态库（改模型/代价后再改为 true 强制重编）
+    recompileLibraries      false
 }
 
 initialState
