@@ -51,7 +51,7 @@ right_ft_broadcaster:
 ocs2_arm_controller:
   ros__parameters:
     update_rate: 500
-    mpc_frequency: 50
+    mpc_frequency: 100
     joints:
       - left_joint1
       - left_joint2
@@ -99,7 +99,7 @@ ocs2_wbc_controller:
   ros__parameters:
     movej_max_velocity: 1.2
     update_rate: 500
-    mpc_frequency: 50
+    mpc_frequency: 100
     info_file_name: fixed_base
     # [lift_joint | body_joint1~2 | left x7 | right x7 | head x2]
     joints:
